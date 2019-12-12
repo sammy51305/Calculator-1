@@ -75,25 +75,18 @@ public class UI {
 		keyButton = new JButton[5][4];
 		for (int row = 0; row < y.length; row++) {
 			for (int col = 0; col < x.length; col++) {
+				if (row == 4 && col == 3)
+					break;
+				keyButton[row][col] = new JButton(labelsOfBtn[row][col]);
+				keyButton[row][col].setFont(fontOfBtn);
 				if (row == 4 && col == 2) {
-					keyButton[row][col] = new JButton(labelsOfBtn[row][col]);
-					keyButton[row][col].setFont(fontOfBtn);
 					keyButton[row][col].setBounds(x[col], y[row], 2 * width + 10, height);
-					keyButton[row][col].addActionListener(new ButtonKeyListener());
-					keyButton[row][col].addKeyListener(new ButtonKeyListener());
-					frame.add(keyButton[row][col]);
-					break;
-				} else if (row == 4 && col == 3) {
-					System.out.println("asdf");
-					break;
 				} else {
-					keyButton[row][col] = new JButton(labelsOfBtn[row][col]);
-					keyButton[row][col].setFont(fontOfBtn);
-					keyButton[row][col].setBounds(x[col], y[row], width, height);
-					keyButton[row][col].addActionListener(new ButtonKeyListener());
-					keyButton[row][col].addKeyListener(new ButtonKeyListener());
-					frame.add(keyButton[row][col]);
+					keyButton[row][col].setBounds(x[col], y[row], width, height);					
 				}
+				keyButton[row][col].addActionListener(new ButtonKeyListener());
+				keyButton[row][col].addKeyListener(new ButtonKeyListener());
+				frame.add(keyButton[row][col]);
 			}
 		}
 
