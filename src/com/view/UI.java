@@ -3,20 +3,14 @@ package com.view;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.util.regex.Pattern;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 
-import com.control.Calculate;
 import com.control.ButtonController;
 
-public class UI {//implements ActionListener {
+public class UI {
 
 	private JFrame frame;
 	private JButton btnChangeColor;
@@ -25,11 +19,6 @@ public class UI {//implements ActionListener {
 
 	private String[][] labelsOfBtn = { { "C", "<-", "%", "/" }, { "7", "8", "9", "*" }, { "4", "5", "6", "-" },
 			{ "1", "2", "3", "+" }, { ".", "0", "=", "=" } };
-	private Boolean isChanged = false;
-	private char opt = ' ';// Storage Oparator
-	private boolean go = true, // Faire Calcule Avec Opt != (=)
-			addWrite = true; // Racordé des Nombres dans l'Affichage
-	private double val = 0; // Storage Values For Calcule
 
 	/**
 	 * Create the application.
@@ -77,7 +66,6 @@ public class UI {//implements ActionListener {
 				} else {
 					keyButton[row][col].setBounds(x[col], y[row], width, height);
 				}
-//				keyButton[row][col].addActionListener(this);
 				keyButton[row][col].addActionListener(new ButtonController(keyButton, inText));
 				frame.add(keyButton[row][col]);
 			}
