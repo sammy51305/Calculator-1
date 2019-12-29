@@ -9,12 +9,17 @@ import javax.swing.JFrame;
 import javax.swing.JTextField;
 
 import com.control.ButtonController;
+import com.model.ButtonFactory;
+import com.model.Buttons;
+import com.model.RectangleButtonFactory;
 
 public class UI {
 
 	private JFrame frame;
 	private JButton btnChangeColor;
 	private JButton[][] keyButton = new JButton[5][4];
+	private static ButtonFactory btnFactory;
+	private Buttons[][] keyButtons = new Buttons[5][4];
 	private JTextField inText;
 
 	private String[][] labelsOfBtn = { { "C", "<-", "%", "/" }, { "7", "8", "9", "*" }, { "4", "5", "6", "-" },
@@ -24,31 +29,45 @@ public class UI {
 	 * Create the application.
 	 */
 	public UI() {
-		initialize();
+		frame = new JFrame("Calcultor");
+		frame.setSize(400, 650);// Height And Width Of Window
+		frame.setLocationRelativeTo(null); // Move Window To Center
+
+		// 設定Text
+		inText = new JTextField("0");
+		inText.setBounds(20, 60, 350, 80);
+		inText.setEditable(false);
+		inText.setBackground(Color.WHITE);
+		inText.setFont(new Font("Comic Sans MS", Font.PLAIN, 33));
+		frame.getContentPane().add(inText);
+
+		// initialize();
+		initialize2();
+		// 顯示視窗
+		frame.getContentPane().setLayout(null);
+		frame.setResizable(false);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // If Click into The Red Button => End The Process
+		frame.setVisible(true);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame("Calcultor");
-		frame.setSize(410, 600);// Height And Width Of Window
-		frame.setLocationRelativeTo(null); // Move Window To Center
-
 		// 設置Button的字型、長寬
 		Font fontOfBtn = new Font("Comic Sans MS", Font.PLAIN, 28);
 		int width = 80;// Width Button
-		int height = 70;// Height Button
+		int height = 80;// Height Button
+
+		// 設定位置
 		int marginX = 20;
 		int marginY = 60;
-		int j = -1;
-		int k = -1;
-		int[] x = { marginX, marginX + 90, 200, 290 };
-		int[] y = { marginY + 100, marginY + 180, marginY + 260, marginY + 340, marginY + 420 };
+		int[] x = { marginX, marginX + 90, marginX + 180, marginX + 270 };
+		int[] y = { marginY + 100, marginY + 190, marginY + 280, marginY + 370, marginY + 460 };
 
 		// 設定Text
 		inText = new JTextField("0");
-		inText.setBounds(x[0], marginY, 350, 70);
+		inText.setBounds(x[0], marginY, 350, 80);
 		inText.setEditable(false);
 		inText.setBackground(Color.WHITE);
 		inText.setFont(new Font("Comic Sans MS", Font.PLAIN, 33));
@@ -72,19 +91,47 @@ public class UI {
 		}
 
 		// 設定換色Button
-		btnChangeColor = new JButton();
-		btnChangeColor.setBounds(200, 30, 140, 18);
-		btnChangeColor.setText("Toggle colors");
+		btnChangeColor = new JButton("Toggle colors");
+		btnChangeColor.setBounds(200, 30, 140, 20);
 		btnChangeColor.setBackground(Color.GREEN.darker());
 		btnChangeColor.setForeground(Color.WHITE);
 		btnChangeColor.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		btnChangeColor.addActionListener(new ButtonController(btnChangeColor, keyButton));
 		frame.getContentPane().add(btnChangeColor);
+	}
 
-		// 顯示視窗
-		frame.getContentPane().setLayout(null);
-		frame.setResizable(false);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // If Click into The Red Button => End The Process
-		frame.setVisible(true);
+	private void initialize2() {
+		int row_len = 5;
+		int col_len = 4;
+		int x_initPos = 20;
+		int y_initPos = 60;
+		int[] x = { x_initPos, x_initPos + 90, x_initPos + 180, x_initPos + 270 };
+		int[] y = { y_initPos + 100, y_initPos + 190, y_initPos + 280, y_initPos + 370, y_initPos + 460 };
+
+		btnFactory = new RectangleButtonFactory();
+		for (int row = 0; row < row_len; row++) {
+			for (int col = 0; col < col_len; col++) {
+				System.out.println("row:" + row + ", col:" + col);
+				if (row == 4 && col == 3)
+					break;
+				if (row == 4 && col == 2) {
+					keyButtons[row][col] = btnFactory.generateButtons("rectangle", x[col], y[row],
+							labelsOfBtn[row][col]);
+				} else {
+					keyButtons[row][col] = btnFactory.generateButtons("square", x[col], y[row],
+							labelsOfBtn[row][col]);
+				}
+				keyButtons[row][col].addActionListener(new ButtonController(keyButtons, inText));
+				frame.add(keyButtons[row][col]);
+			}
+		}
+		// 設定換色Button
+		btnChangeColor = new JButton("Toggle colors");
+		btnChangeColor.setBounds(200, 30, 140, 20);
+		btnChangeColor.setBackground(Color.GREEN.darker());
+		btnChangeColor.setForeground(Color.WHITE);
+		btnChangeColor.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		btnChangeColor.addActionListener(new ButtonController(btnChangeColor, keyButtons));
+		frame.getContentPane().add(btnChangeColor);
 	}
 }

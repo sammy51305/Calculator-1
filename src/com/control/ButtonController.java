@@ -4,13 +4,15 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.regex.Pattern;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 
-public class ButtonController extends JFrame implements ActionListener {
+public class ButtonController extends JFrame implements ActionListener{
 
 	private JButton btnChangeColor;
 	private JButton[][] keyButton;
@@ -37,7 +39,6 @@ public class ButtonController extends JFrame implements ActionListener {
 	/**
 	 * 監聽按鈕事件
 	 */
-
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnChangeColor) {
@@ -244,5 +245,4 @@ public class ButtonController extends JFrame implements ActionListener {
 	private void repaintFont() {
 		inText.setFont(inText.getFont().deriveFont(Font.PLAIN));
 	}
-
 }
