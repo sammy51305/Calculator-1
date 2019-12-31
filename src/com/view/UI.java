@@ -16,11 +16,11 @@ import com.model.RectangleButtonFactory;
 public class UI {
 
 	private JFrame frame;
+	private JTextField inText;
 	private JButton btnChangeColor;
 	private JButton[][] keyButton = new JButton[5][4];
 	private static ButtonFactory btnFactory;
 	private Buttons[][] keyButtons = new Buttons[5][4];
-	private JTextField inText;
 
 	private String[][] labelsOfBtn = { { "C", "<-", "%", "/" }, { "7", "8", "9", "*" }, { "4", "5", "6", "-" },
 			{ "1", "2", "3", "+" }, { ".", "0", "=", "=" } };
@@ -29,6 +29,7 @@ public class UI {
 	 * Create the application.
 	 */
 	public UI() {
+		// 設定視窗
 		frame = new JFrame("Calcultor");
 		frame.setSize(400, 650);// Height And Width Of Window
 		frame.setLocationRelativeTo(null); // Move Window To Center
@@ -42,7 +43,8 @@ public class UI {
 		frame.getContentPane().add(inText);
 
 		// initialize();
-		initialize2();
+		initializeButtons();
+
 		// 顯示視窗
 		frame.getContentPane().setLayout(null);
 		frame.setResizable(false);
@@ -51,6 +53,7 @@ public class UI {
 	}
 
 	/**
+	 * 目前不用此版本，用下方第二版
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
@@ -64,14 +67,6 @@ public class UI {
 		int marginY = 60;
 		int[] x = { marginX, marginX + 90, marginX + 180, marginX + 270 };
 		int[] y = { marginY + 100, marginY + 190, marginY + 280, marginY + 370, marginY + 460 };
-
-		// 設定Text
-		inText = new JTextField("0");
-		inText.setBounds(x[0], marginY, 350, 80);
-		inText.setEditable(false);
-		inText.setBackground(Color.WHITE);
-		inText.setFont(new Font("Comic Sans MS", Font.PLAIN, 33));
-		frame.getContentPane().add(inText);
 
 		// 設定Key Buttons
 		for (int row = 0; row < y.length; row++) {
@@ -100,7 +95,10 @@ public class UI {
 		frame.getContentPane().add(btnChangeColor);
 	}
 
-	private void initialize2() {
+	/**
+	 * 初始化Buttons，實作Factory Pattern
+	 */
+	private void initializeButtons() {
 		int row_len = 5;
 		int col_len = 4;
 		int x_initPos = 20;
